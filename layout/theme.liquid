@@ -6,12 +6,6 @@
   lang="{{ request.locale.iso_code }}"
 >
   <head>
-    <div id="paypal-container-FP4NHVWXP8HDN"></div>
-<script>
-  paypal.HostedButtons({
-    hostedButtonId: "FP4NHVWXP8HDN",
-  }).render("#paypal-container-FP4NHVWXP8HDN")
-</script>
     {%- if settings.favicon != blank -%}
       <link
         rel="icon"
@@ -21,7 +15,6 @@
     {%- endif -%}
 
     {% # theme-check-disable RemoteAsset %}
-    {% comment %} This a way to wait for main content to load when navigating to a new page so that the view transitions can work consistently {% endcomment %}
     {% if settings.transition_to_main_product or settings.page_transition_enabled %}
       <link
         rel="expect"
@@ -44,32 +37,104 @@
 
     {{ content_for_header }}
     {% # theme-check-enable RemoteAsset %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      :root {
+        --vc-gold:       #B8962E;
+        --vc-gold-light: #D4AF50;
+        --vc-gold-pale:  #F0E4BE;
+        --vc-black:      #0A0A0A;
+        --vc-charcoal:   #1A1A1A;
+        --vc-mid:        #5A5A5A;
+        --vc-cream:      #FAF8F3;
+        --vc-cream-dark: #F0EDE4;
+        --vc-white:      #FFFFFF;
+      }
+
+      body {
+        background-color: var(--vc-cream);
+        font-family: 'Jost', sans-serif;
+        font-weight: 300;
+        color: var(--vc-charcoal);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .vc-trust-bar {
+        background-color: var(--vc-black);
+        color: rgba(250, 248, 243, 0.75);
+        text-align: center;
+        padding: 9px 16px;
+        font-family: 'Jost', sans-serif;
+        font-size: 0.72rem;
+        font-weight: 400;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .vc-trust-bar__items {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .vc-trust-bar__item::before {
+        content: '✦';
+        color: var(--vc-gold);
+        margin-right: 0.5rem;
+        font-size: 0.6rem;
+      }
+
+      @media screen and (max-width: 749px) {
+        .vc-trust-bar__items { gap: 0.8rem; }
+        .vc-trust-bar { font-size: 0.65rem; padding: 7px 12px; }
+      }
+
+      .content-for-layout {
+        min-height: 60vh;
+        background-color: var(--vc-cream);
+      }
+
+      footer {
+        border-top: 1px solid rgba(184, 150, 46, 0.35);
+      }
+
+      #paypal-container-FP4NHVWXP8HDN {
+        margin-top: 12px;
+      }
+    </style>
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+
+    <div class="vc-trust-bar">
+      <div class="vc-trust-bar__items">
+        <span class="vc-trust-bar__item">Free Shipping Over $49</span>
+        <span class="vc-trust-bar__item">Chemical-Free Cleaning</span>
+        <span class="vc-trust-bar__item">30-Day Money Back Guarantee</span>
+        <span class="vc-trust-bar__item">Secure Checkout</span>
+      </div>
+    </div>
+
     <div id="header-group">
       {% sections 'header-group' %}
     </div>
 
     <script>
-      // Inline header height and menu style calculations to prevent layout shift
-      // Note: Updates in calculateHeaderGroupHeight(), updateTransparentHeaderOffset() and setHeaderMenuStyle() utilities.js should be kept in sync with this function
       (function setHeaderHeighCustomProperties() {
-        /*
-         * Header calculation functions for maintaining CSS variables
-         * Mimic calculateHeaderGroupHeight() in utilities.js
-         */
         const header = document.querySelector('header-component');
         const headerGroup = document.querySelector('#header-group');
         const hasHeaderSection = headerGroup?.querySelector('.header-section');
-
         if (!header || !headerGroup) return;
-
         const headerTopRow = header.querySelector('.header__row--top');
         const headerHeight = header.offsetHeight;
-
-        // Calculate the total height of the header group
         let headerGroupHeight = 0;
         const children = headerGroup.children;
         for (let i = 0; i < children.length; i++) {
@@ -77,36 +142,22 @@
           if (element === header || !(element instanceof HTMLElement)) continue;
           headerGroupHeight += element.offsetHeight;
         }
-
-        // Check for transparent header special case
         if (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling) {
           headerGroupHeight += headerHeight;
         }
-
-        // Set CSS variables
         document.body.style.setProperty('--header-height', `${headerHeight}px`);
         document.body.style.setProperty('--header-group-height', `${headerGroupHeight}px`);
-
         if (headerTopRow) {
           window.requestAnimationFrame(function () {
             document.body.style.setProperty('--top-row-height', `${headerTopRow.offsetHeight}px`);
           });
         }
-
-        /**
-         * Updates CSS custom properties for transparent header offset calculation
-         * Mimic updateTransparentHeaderOffset() in utilities.js
-         */
-
         if (!hasHeaderSection || !header?.hasAttribute('transparent')) {
           document.body.style.setProperty('--transparent-header-offset-boolean', '0');
           return;
         }
-
         const hasImmediateSection = hasHeaderSection.nextElementSibling?.classList.contains('shopify-section');
-
-        const shouldApplyOffset = !hasImmediateSection ? '1' : '0';
-        document.body.style.setProperty('--transparent-header-offset-boolean', shouldApplyOffset);
+        document.body.style.setProperty('--transparent-header-offset-boolean', !hasImmediateSection ? '1' : '0');
       })();
 
       (function setHeaderMenuStyle() {
@@ -140,5 +191,13 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+    <script>
+      paypal.HostedButtons({
+        hostedButtonId: "FP4NHVWXP8HDN",
+      }).render("#paypal-container-FP4NHVWXP8HDN");
+    </script>
+
   </body>
 </html>
