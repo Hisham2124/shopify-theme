@@ -3,11 +3,12 @@ import { trapFocus, removeTrapFocus } from '@theme/focus';
 import { onAnimationEnd, removeWillChangeOnAnimationEnd } from '@theme/utilities';
 
 /**
+ * VaporaClean™ — HeaderDrawer
  * A custom element that manages the main menu drawer.
  *
  * @typedef {object} Refs
- * @property {HTMLDetailsElement} details - The details element.
- * @property {HTMLDivElement} menuDrawer - The slideable drawer panel containing the menu.
+ * @property {HTMLDetailsElement} details   - The details element.
+ * @property {HTMLDivElement} menuDrawer    - The slideable drawer panel containing the menu.
  *
  * @extends {Component<Refs>}
  */
@@ -16,7 +17,6 @@ class HeaderDrawer extends Component {
 
   connectedCallback() {
     super.connectedCallback();
-
     this.addEventListener('keyup', this.#onKeyUp);
     this.#setupAnimatedElementListeners();
   }
@@ -24,45 +24,44 @@ class HeaderDrawer extends Component {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('keyup', this.#onKeyUp);
+    this.#unlockScroll();
   }
 
   /**
-   * Close the main menu drawer when the Escape key is pressed
+   * Close the main menu drawer when the Escape key is pressed.
    * @param {KeyboardEvent} event
    */
   #onKeyUp = (event) => {
     if (event.key !== 'Escape') return;
-
     this.#close(this.#getDetailsElement(event));
   };
 
   /**
-   * @returns {boolean} Whether the main menu drawer is open
+   * @returns {boolean} Whether the main menu drawer is open.
    */
   get isOpen() {
     return this.refs.details.hasAttribute('open');
   }
 
   /**
-   * Get the closest details element to the event target
+   * Get the closest details element to the event target.
    * @param {Event | undefined} event
    * @returns {HTMLDetailsElement}
    */
   #getDetailsElement(event) {
     if (!(event?.target instanceof Element)) return this.refs.details;
-
     return event.target.closest('details') ?? this.refs.details;
   }
 
   /**
-   * Toggle the main menu drawer
+   * Toggle the main menu drawer.
    */
   toggle() {
     return this.isOpen ? this.close() : this.open();
   }
 
   /**
-   * Open the closest drawer or the main menu drawer
+   * Open the closest drawer or the main menu drawer.
    * @param {string} [target]
    * @param {Event} [event]
    */
@@ -73,8 +72,10 @@ class HeaderDrawer extends Component {
     if (!summary) return;
 
     summary.setAttribute('aria-expanded', 'true');
+    this.#lockScroll();
 
     this.preventInitialAccordionAnimations(details);
+
     requestAnimationFrame(() => {
       details.classList.add('menu-open');
 
@@ -86,10 +87,16 @@ class HeaderDrawer extends Component {
       const drawer = details.querySelector('.menu-drawer, .menu-drawer__submenu');
       onAnimationEnd(drawer || details, () => trapFocus(details), { subtree: false });
     });
+
+    // Dispatch VaporaClean event so other components can react (e.g. hide header CTA)
+    this.dispatchEvent(new CustomEvent('vaporaclean:drawer:open', {
+      bubbles: true,
+      detail: { hasSubmenu: Boolean(target) },
+    }));
   }
 
   /**
-   * Go back or close the main menu drawer
+   * Go back or close the main menu drawer.
    * @param {Event} [event]
    */
   back(event) {
@@ -97,15 +104,14 @@ class HeaderDrawer extends Component {
   }
 
   /**
-   * Close the main menu drawer
+   * Close the main menu drawer.
    */
   close() {
     this.#close(this.refs.details);
   }
 
   /**
-   * Close the closest menu or submenu that is open
-   *
+   * Close the closest menu or submenu that is open.
    * @param {HTMLDetailsElement} details
    */
   #close(details) {
@@ -117,8 +123,8 @@ class HeaderDrawer extends Component {
     details.classList.remove('menu-open');
     this.refs.menuDrawer.classList.remove('menu-drawer--has-submenu-opened');
 
-    // Wait for the .menu-drawer element's transition, not the entire details subtree
-    // This avoids waiting for child accordion/resource-card animations which can cause issues on Firefox
+    // Wait for the .menu-drawer element's transition, not the entire details subtree.
+    // This avoids waiting for child accordion/resource-card animations which can cause issues on Firefox.
     const drawer = details.querySelector('.menu-drawer, .menu-drawer__submenu');
 
     onAnimationEnd(
@@ -127,6 +133,7 @@ class HeaderDrawer extends Component {
         reset(details);
         if (details === this.refs.details) {
           removeTrapFocus();
+          this.#unlockScroll();
           const openDetails = this.querySelectorAll('details[open]:not(accordion-custom > details)');
           openDetails.forEach(reset);
         } else {
@@ -135,11 +142,16 @@ class HeaderDrawer extends Component {
       },
       { subtree: false }
     );
+
+    // Dispatch VaporaClean event
+    this.dispatchEvent(new CustomEvent('vaporaclean:drawer:close', {
+      bubbles: true,
+    }));
   }
 
   /**
-   * Attach animationend event listeners to all animated elements to remove will-change after animation
-   * to remove the stacking context and allow submenus to be positioned correctly
+   * Attach animationend event listeners to all animated elements to remove will-change after animation,
+   * to remove the stacking context and allow submenus to be positioned correctly.
    */
   #setupAnimatedElementListeners() {
     const allAnimated = this.querySelectorAll('.menu-drawer__animated-element');
@@ -152,7 +164,7 @@ class HeaderDrawer extends Component {
    * Temporarily disables accordion animations to prevent unwanted transitions when the drawer opens.
    * Adds a no-animation class to accordion content elements, then removes it after 100ms to
    * re-enable animations for user interactions.
-   * @param {HTMLDetailsElement} details - The details element containing the accordions
+   * @param {HTMLDetailsElement} details - The details element containing the accordions.
    */
   preventInitialAccordionAnimations(details) {
     const content = details.querySelectorAll('accordion-custom .details-content');
@@ -162,6 +174,7 @@ class HeaderDrawer extends Component {
         element.classList.add('details-content--no-animation');
       }
     });
+
     setTimeout(() => {
       content.forEach((element) => {
         if (element instanceof HTMLElement) {
@@ -170,6 +183,32 @@ class HeaderDrawer extends Component {
       });
     }, 100);
   }
+
+  /**
+   * Locks body scroll while the drawer is open.
+   * Preserves the current scroll position to prevent layout jump.
+   */
+  #lockScroll() {
+    const scrollY = window.scrollY;
+    document.body.style.overflow   = 'hidden';
+    document.body.style.position   = 'fixed';
+    document.body.style.top        = `-${scrollY}px`;
+    document.body.style.width      = '100%';
+    document.body.dataset.scrollY  = String(scrollY);
+  }
+
+  /**
+   * Restores body scroll and resets scroll position after the drawer closes.
+   */
+  #unlockScroll() {
+    const scrollY = parseInt(document.body.dataset.scrollY ?? '0', 10);
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top      = '';
+    document.body.style.width    = '';
+    delete document.body.dataset.scrollY;
+    window.scrollTo(0, scrollY);
+  }
 }
 
 if (!customElements.get('header-drawer')) {
@@ -177,8 +216,7 @@ if (!customElements.get('header-drawer')) {
 }
 
 /**
- * Reset an open details element to its original state
- *
+ * Reset an open details element to its original state.
  * @param {HTMLDetailsElement} element
  */
 function reset(element) {
