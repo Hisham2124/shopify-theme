@@ -1,587 +1,540 @@
-/* ============================================================
-   VaporaClean™ — Clarity Theme Brand Override
-   Version: 1.0
-   Brand: Gold (#B8962E / #D4AF50) + Black (#0A0A0A) + Cream (#FAF8F3)
-   HOW TO USE: Paste this entire file into:
-   Shopify Admin → Online Store → Themes → Edit Code
-   → assets/base.css → at the very BOTTOM of the file
-   ============================================================ */
+/* =====================================================
+   CUSTOM SHOPIFY BASE.CSS OVERRIDE
+   Paste at the bottom of assets/base.css
+   Brand style: clean, premium, conversion-focused
+===================================================== */
 
-/* ── Google Fonts ─────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap');
-
-/* ── Brand Tokens ──────────────────────────────────────────── */
+/* ---------- Global Variables ---------- */
 :root {
-  --vc-gold:          #B8962E;
-  --vc-gold-light:    #D4AF50;
-  --vc-gold-pale:     #F0E4BE;
-  --vc-black:         #0A0A0A;
-  --vc-charcoal:      #1A1A1A;
-  --vc-dark:          #2A2A2A;
-  --vc-mid:           #5A5A5A;
-  --vc-cream:         #FAF8F3;
-  --vc-cream-dark:    #F0EDE4;
-  --vc-white:         #FFFFFF;
-
-  /* Override Clarity theme colors */
-  --color-background:           var(--vc-cream);
-  --color-foreground:           var(--vc-black);
-  --color-primary:              var(--vc-gold);
-  --color-primary-hover:        var(--vc-gold-light);
-
-  /* Buttons */
-  --color-primary-button-background:       var(--vc-gold);
-  --color-primary-button-text:             var(--vc-black);
-  --color-primary-button-border:           var(--vc-gold);
-  --color-primary-button-hover-background: var(--vc-gold-light);
-  --color-primary-button-hover-text:       var(--vc-black);
-  --color-primary-button-hover-border:     var(--vc-gold-light);
-
-  --color-secondary-button-background:     transparent;
-  --color-secondary-button-text:           var(--vc-black);
-  --color-secondary-button-border:         var(--vc-black);
-  --color-secondary-button-hover-background: var(--vc-black);
-  --color-secondary-button-hover-text:     var(--vc-cream);
-  --color-secondary-button-hover-border:   var(--vc-black);
-
-  /* Inputs */
-  --color-input-background:       var(--vc-white);
-  --color-input-border:           #C8C4B8;
-  --color-input-hover-background: var(--vc-cream-dark);
-  --color-input-text:             var(--vc-charcoal);
-
-  /* Font overrides */
-  --font-h1--family:    'Cormorant Garamond', Georgia, serif;
-  --font-h2--family:    'Cormorant Garamond', Georgia, serif;
-  --font-h3--family:    'Cormorant Garamond', Georgia, serif;
-  --font-h4--family:    'Jost', sans-serif;
-  --font-h5--family:    'Jost', sans-serif;
-  --font-h6--family:    'Jost', sans-serif;
-  --font-paragraph--family: 'Jost', sans-serif;
-  --font-paragraph--weight: 300;
-  --button-font-family-primary: 'Jost', sans-serif;
+  --custom-bg: #ffffff;
+  --custom-text: #111111;
+  --custom-muted: #666666;
+  --custom-border: #e8e8e8;
+  --custom-black: #0f0f0f;
+  --custom-accent: #111111;
+  --custom-accent-hover: #333333;
+  --custom-radius: 14px;
+  --custom-radius-small: 8px;
+  --custom-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --custom-shadow-soft: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
-/* ── Global Body ───────────────────────────────────────────── */
+/* ---------- General Page Styling ---------- */
 body {
-  background-color: var(--vc-cream);
-  color: var(--vc-charcoal);
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  letter-spacing: 0.01em;
+  background: var(--custom-bg);
+  color: var(--custom-text);
+  font-family: inherit;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* ── Headings ──────────────────────────────────────────────── */
-h1, .h1,
-h2, .h2,
-h3, .h3 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--vc-black);
+.page-width {
+  max-width: 1200px;
 }
 
-h4, .h4,
-h5, .h5,
-h6, .h6 {
-  font-family: 'Jost', sans-serif;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 0.8rem;
+img {
+  max-width: 100%;
+  height: auto;
 }
 
-/* ── Header ────────────────────────────────────────────────── */
-.header,
-header-component {
-  background-color: var(--vc-black) !important;
-  border-bottom: 1px solid rgba(184, 150, 46, 0.3);
-}
-
-.header__heading-link,
-.header__heading,
-.header a {
-  color: var(--vc-cream) !important;
-}
-
-.header__logo,
-.header__heading-logo {
-  filter: brightness(0) invert(1);
-}
-
-.header__nav a,
-.header__menu-item {
-  color: var(--vc-cream) !important;
-  font-family: 'Jost', sans-serif;
-  font-weight: 400;
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: color 0.25s ease;
-}
-
-.header__nav a:hover,
-.header__menu-item:hover {
-  color: var(--vc-gold-light) !important;
-}
-
-/* Cart & search icons in header */
-.header__icon svg,
-.header__icons svg {
-  color: var(--vc-cream);
-  stroke: var(--vc-cream);
-}
-
-/* ── Navigation Announcement Bar ──────────────────────────── */
-.announcement-bar {
-  background-color: var(--vc-gold) !important;
-  color: var(--vc-black) !important;
-}
-
-.announcement-bar__message,
-.announcement-bar p,
-.announcement-bar a {
-  color: var(--vc-black) !important;
-  font-family: 'Jost', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-/* ── Hero / Banner Section ─────────────────────────────────── */
-.banner,
-.hero {
-  background-color: var(--vc-cream-dark);
-}
-
-.banner__heading,
-.hero__heading {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 600;
-  font-size: clamp(2.8rem, 6vw, 5rem);
-  line-height: 1.05;
-  color: var(--vc-black);
-}
-
-/* Gold accent on "Steam" or italic parts */
-.banner__heading em,
-.hero__heading em {
-  color: var(--vc-gold);
-  font-style: italic;
-}
-
-.banner__subheading,
-.hero__subheading,
-.banner p {
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: 1.05rem;
-  color: var(--vc-mid);
-  line-height: 1.7;
-}
-
-/* ── Buttons ───────────────────────────────────────────────── */
-.button {
-  font-family: 'Jost', sans-serif !important;
-  font-weight: 500 !important;
-  font-size: 0.78rem !important;
-  letter-spacing: 0.14em !important;
-  text-transform: uppercase !important;
-  border-radius: 2px !important;
-  padding: 14px 36px !important;
-  background-color: var(--vc-gold) !important;
-  color: var(--vc-black) !important;
-  border: 1px solid var(--vc-gold) !important;
-  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease !important;
-  box-shadow: none !important;
-}
-
-.button:hover {
-  background-color: var(--vc-black) !important;
-  color: var(--vc-gold-light) !important;
-  border-color: var(--vc-black) !important;
-}
-
-.button-secondary {
-  font-family: 'Jost', sans-serif !important;
-  font-weight: 500 !important;
-  font-size: 0.78rem !important;
-  letter-spacing: 0.14em !important;
-  text-transform: uppercase !important;
-  border-radius: 2px !important;
-  background-color: transparent !important;
-  color: var(--vc-black) !important;
-  border: 1px solid var(--vc-black) !important;
-  transition: background-color 0.25s ease, color 0.25s ease !important;
-}
-
-.button-secondary:hover {
-  background-color: var(--vc-black) !important;
-  color: var(--vc-cream) !important;
-}
-
-/* Add to Cart specific */
-.add-to-cart-button {
-  background-color: var(--vc-gold) !important;
-  color: var(--vc-black) !important;
-  border-color: var(--vc-gold) !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.12em !important;
-  min-height: 54px !important;
-}
-
-.add-to-cart-button:hover {
-  background-color: var(--vc-black) !important;
-  color: var(--vc-gold-light) !important;
-  border-color: var(--vc-black) !important;
-}
-
-/* ── Product Card ──────────────────────────────────────────── */
-.product-card {
-  border: none !important;
-  background-color: transparent;
-}
-
-.product-grid__item {
-  border: none !important;
-  background-color: var(--vc-white);
-}
-
-.product-card__title,
-.product-card h3,
-.product-card h4 {
-  font-family: 'Jost', sans-serif;
-  font-weight: 500;
-  font-size: 0.9rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--vc-black);
-}
-
-.price,
-.price__regular,
-.price-item--regular {
-  font-family: 'Jost', sans-serif;
-  font-weight: 400;
-  color: var(--vc-black);
-}
-
-.price-item--sale,
-.price__sale {
-  color: var(--vc-gold);
-  font-weight: 500;
-}
-
-.compare-at-price {
-  color: var(--vc-mid);
-  opacity: 0.6;
-}
-
-/* ── Product Detail Page ───────────────────────────────────── */
-.product__title,
-.product-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 500;
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
-  line-height: 1.1;
-  color: var(--vc-black);
-}
-
-.product__price,
-.product-details__price {
-  font-family: 'Jost', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: var(--vc-black);
-}
-
-.product__description,
-.product-details__description,
-.product__description p {
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: 0.95rem;
-  line-height: 1.85;
-  color: var(--vc-mid);
-}
-
-/* Product image background */
-.product-media-container {
-  background-color: var(--vc-cream-dark);
-}
-
-/* Variant buttons */
-.variant-option__button-label {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  border-radius: 2px !important;
-}
-
-/* ── Section: Features / Icons Block ──────────────────────── */
-/* Gold divider accent */
-.section::before {
-  content: none;
-}
-
-.section-resource-list {
-  background-color: var(--vc-cream);
-}
-
-/* ── Trust Badges / Icon Blocks ───────────────────────────── */
-.icon-with-text__icon svg,
-.icon-box svg {
-  color: var(--vc-gold);
-}
-
-/* ── Collection Header ─────────────────────────────────────── */
-.collection-hero,
-.collection-banner {
-  background-color: var(--vc-charcoal);
-}
-
-.collection-hero__title,
-.collection-banner__title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  color: var(--vc-cream);
-  font-weight: 500;
-}
-
-/* ── Footer ────────────────────────────────────────────────── */
-footer,
-.footer {
-  background-color: var(--vc-black) !important;
-  color: var(--vc-cream) !important;
-  border-top: 1px solid rgba(184, 150, 46, 0.4);
-}
-
-.footer__heading,
-footer h3,
-footer h4 {
-  font-family: 'Jost', sans-serif;
-  font-weight: 500;
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--vc-gold) !important;
-  margin-bottom: 1rem;
-}
-
-footer p,
-footer li,
-footer a,
-.footer p,
-.footer li,
-.footer a {
-  color: rgba(250, 248, 243, 0.65) !important;
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  font-size: 0.85rem;
-  line-height: 1.8;
-}
-
-footer a:hover,
-.footer a:hover {
-  color: var(--vc-gold-light) !important;
+a {
+  color: inherit;
   text-decoration: none;
 }
 
-/* Footer border dividers */
-.footer__content-top {
-  border-bottom: 1px solid rgba(184, 150, 46, 0.2);
-  padding-bottom: 2rem;
-  margin-bottom: 2rem;
-}
-
-/* ── Cart Drawer ───────────────────────────────────────────── */
-.cart-drawer,
-.cart-notification {
-  background-color: var(--vc-cream) !important;
-  border-left: 1px solid var(--vc-gold-pale);
-}
-
-.cart-drawer__title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 500;
-  font-size: 1.4rem;
-  color: var(--vc-black);
-}
-
-/* ── Scrollbar ─────────────────────────────────────────────── */
-::-webkit-scrollbar-thumb {
-  background-color: rgba(184, 150, 46, 0.4);
-  border: 5px solid var(--vc-cream);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(184, 150, 46, 0.7);
-}
-
-/* ── Gold Divider Utility ──────────────────────────────────── */
-.gold-divider {
-  width: 60px;
-  height: 1px;
-  background-color: var(--vc-gold);
-  margin: 1.5rem auto;
-}
-
-/* ── Hover Effects ─────────────────────────────────────────── */
-.product-card:hover .product-card__title,
-.product-card:hover h3,
-.product-card:hover h4 {
-  color: var(--vc-gold);
-  transition: color 0.2s ease;
-}
-
-/* ── Breadcrumbs ───────────────────────────────────────────── */
-.breadcrumbs,
-.breadcrumbs a,
-.breadcrumbs span {
-  font-family: 'Jost', sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  color: var(--vc-mid);
-}
-
-.breadcrumbs a:hover {
-  color: var(--vc-gold);
-}
-
-/* ── Search & Predictive ───────────────────────────────────── */
-.predictive-search-results__card:hover {
-  background-color: var(--vc-cream-dark);
-}
-
-/* ── Sale / Discount Badge ─────────────────────────────────── */
-.badge,
-.product-badge,
-.badge--sale {
-  background-color: var(--vc-gold) !important;
-  color: var(--vc-black) !important;
-  font-family: 'Jost', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  border-radius: 2px;
-}
-
-/* ── VaporaClean Tagline Banner ────────────────────────────── */
-/* Add a thin premium strip above the footer */
-.shopify-section:has(.footer) {
-  border-top: 2px solid var(--vc-gold);
-}
-
-/* ── Section backgrounds alternating ─────────────────────── */
-.shopify-section:nth-child(even) .section-background {
-  background-color: var(--vc-cream-dark);
-}
-
-.shopify-section:nth-child(odd) .section-background {
-  background-color: var(--vc-cream);
-}
-
-/* ── Quantity Selector ─────────────────────────────────────── */
-.quantity-selector {
-  border-color: #C8C4B8 !important;
-  background-color: var(--vc-white) !important;
-  border-radius: 2px !important;
-}
-
-.quantity-selector input {
-  font-family: 'Jost', sans-serif;
-  color: var(--vc-black);
-}
-
-/* ── Links ─────────────────────────────────────────────────── */
-a {
-  color: var(--vc-black);
-  text-decoration-color: transparent;
-}
-
 a:hover {
-  color: var(--vc-gold);
+  opacity: 0.85;
 }
 
-/* ── Rating Stars (if present) ─────────────────────────────── */
-.rating .rating-star,
-.star-rating svg,
-.star-rating path {
-  fill: var(--vc-gold);
-  color: var(--vc-gold);
+/* ---------- Typography ---------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h0,
+.h1,
+.h2,
+.h3 {
+  color: var(--custom-text);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
-/* ── Sticky Header on Scroll ──────────────────────────────── */
-.header--sticky,
-.sticky-header {
-  background-color: rgba(10, 10, 10, 0.97) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(184, 150, 46, 0.25);
+p {
+  color: var(--custom-muted);
 }
 
-/* ── Mobile Menu ───────────────────────────────────────────── */
-.menu-drawer,
-.mobile-menu {
-  background-color: var(--vc-black) !important;
+.rte p,
+.product__description p {
+  font-size: 16px;
+  line-height: 1.75;
 }
 
-.menu-drawer a,
-.mobile-menu a,
-.menu-drawer__menu-item {
-  color: var(--vc-cream) !important;
-  font-family: 'Jost', sans-serif;
-  font-weight: 300;
-  letter-spacing: 0.05em;
+/* ---------- Header ---------- */
+.header-wrapper {
+  border-bottom: 1px solid var(--custom-border);
+  background: #ffffff;
 }
 
-.menu-drawer a:hover,
-.mobile-menu a:hover {
-  color: var(--vc-gold-light) !important;
+.header {
+  padding-top: 14px;
+  padding-bottom: 14px;
 }
 
-/* ── Promo Section / Text Banner ──────────────────────────── */
-.promo-bar,
-.text-banner {
-  background-color: var(--vc-charcoal);
-  color: var(--vc-cream);
+.header__heading-logo {
+  max-width: 180px;
 }
 
-/* ── Image Overlays ────────────────────────────────────────── */
-.banner__overlay,
-.hero__overlay {
-  background: linear-gradient(
-    135deg,
-    rgba(10, 10, 10, 0.55) 0%,
-    rgba(10, 10, 10, 0.25) 100%
-  );
-}
-
-/* ── Accordion / Collapsible ───────────────────────────────── */
-summary {
-  font-family: 'Jost', sans-serif;
+.header__menu-item {
+  font-size: 15px;
   font-weight: 500;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
+  color: var(--custom-text);
+}
+
+.header__menu-item:hover span {
+  text-decoration: none;
+  color: var(--custom-muted);
+}
+
+/* ---------- Announcement Bar ---------- */
+.announcement-bar,
+.utility-bar {
+  background: var(--custom-black);
+  color: #ffffff;
+}
+
+.announcement-bar__message {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Buttons ---------- */
+.button,
+.shopify-payment-button__button,
+.product-form__submit,
+.cart__checkout-button,
+.customer button {
+  border-radius: var(--custom-radius-small) !important;
+  background: var(--custom-accent) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--custom-accent) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+  min-height: 52px;
+  transition: all 0.25s ease;
+  box-shadow: none !important;
+}
+
+.button:hover,
+.shopify-payment-button__button:hover,
+.product-form__submit:hover,
+.cart__checkout-button:hover,
+.customer button:hover {
+  background: var(--custom-accent-hover) !important;
+  border-color: var(--custom-accent-hover) !important;
+  transform: translateY(-1px);
+}
+
+.button--secondary,
+.button.button--secondary {
+  background: transparent !important;
+  color: var(--custom-text) !important;
+  border: 1px solid var(--custom-text) !important;
+}
+
+.button--secondary:hover,
+.button.button--secondary:hover {
+  background: var(--custom-text) !important;
+  color: #ffffff !important;
+}
+
+/* ---------- Product Page ---------- */
+.product__title h1,
+.product__title {
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.product__description {
+  margin-top: 22px;
+}
+
+.product__description ul {
+  padding-left: 20px;
+}
+
+.product__description li {
+  margin-bottom: 10px;
+  color: var(--custom-muted);
+}
+
+.price {
+  color: var(--custom-text);
+  font-weight: 800;
+}
+
+.price .price-item {
+  font-size: 24px;
+}
+
+.price--on-sale .price-item--sale {
+  color: #111111;
+}
+
+.price__sale .price-item--regular {
+  color: #999999;
+}
+
+.product-form__buttons {
+  max-width: 100%;
+}
+
+.product-form__submit {
+  width: 100%;
+  font-size: 16px;
   text-transform: uppercase;
-  color: var(--vc-black);
-  border-bottom: 1px solid #E0DDD4;
-  padding-block: 1.1rem;
 }
 
-summary:hover {
-  color: var(--vc-gold) !important;
+.shopify-payment-button {
+  margin-top: 10px;
 }
 
-details[open] > summary {
-  color: var(--vc-gold);
+/* ---------- Quantity Selector ---------- */
+.quantity {
+  border-radius: var(--custom-radius-small);
+  border: 1px solid var(--custom-border);
+  min-height: 48px;
 }
 
-/* ── Notification / Success Messages ─────────────────────── */
-.cart-notification,
-.notification-popup {
-  border-top: 3px solid var(--vc-gold);
+.quantity__button {
+  color: var(--custom-text);
 }
 
-/* == END VaporaClean™ Theme Override == */
+.quantity__input {
+  font-weight: 700;
+}
+
+/* ---------- Variant Pills ---------- */
+.product-form__input input[type="radio"] + label {
+  border-radius: var(--custom-radius-small);
+  border: 1px solid var(--custom-border);
+  background: #ffffff;
+  color: var(--custom-text);
+  padding: 12px 18px;
+  transition: all 0.2s ease;
+}
+
+.product-form__input input[type="radio"]:checked + label {
+  background: var(--custom-black);
+  color: #ffffff;
+  border-color: var(--custom-black);
+}
+
+.product-form__input input[type="radio"] + label:hover {
+  border-color: var(--custom-black);
+}
+
+/* ---------- Product Media ---------- */
+.product__media,
+.product__media-item img,
+.media img {
+  border-radius: var(--custom-radius);
+}
+
+.product__media-wrapper {
+  overflow: hidden;
+}
+
+/* ---------- Product Cards / Collection Grid ---------- */
+.card-wrapper {
+  border-radius: var(--custom-radius);
+  transition: all 0.25s ease;
+}
+
+.card-wrapper:hover {
+  transform: translateY(-4px);
+}
+
+.card,
+.card__inner {
+  border-radius: var(--custom-radius);
+  overflow: hidden;
+}
+
+.card__media img {
+  transition: transform 0.35s ease;
+}
+
+.card-wrapper:hover .card__media img {
+  transform: scale(1.04);
+}
+
+.card__heading {
+  font-weight: 700;
+  color: var(--custom-text);
+}
+
+.card-information {
+  padding-top: 10px;
+}
+
+.card-information .price {
+  font-weight: 800;
+}
+
+/* ---------- Badges ---------- */
+.badge {
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+}
+
+.badge.color-accent-1,
+.badge.color-accent-2 {
+  background: var(--custom-black);
+  color: #ffffff;
+}
+
+/* ---------- Sections ---------- */
+.shopify-section {
+  scroll-margin-top: 90px;
+}
+
+.title,
+.collection__title .title,
+.rich-text__heading {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.rich-text__text {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------- Image Banner ---------- */
+.banner__box {
+  border-radius: var(--custom-radius);
+}
+
+.banner__heading {
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.banner__text {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.banner__buttons .button {
+  min-width: 180px;
+}
+
+/* ---------- Collapsible / FAQ ---------- */
+.collapsible-content summary,
+.accordion summary {
+  padding: 18px 0;
+  font-weight: 700;
+}
+
+.accordion {
+  border-top: 1px solid var(--custom-border);
+  border-bottom: 1px solid var(--custom-border);
+}
+
+.accordion__content {
+  color: var(--custom-muted);
+  line-height: 1.75;
+}
+
+/* ---------- Trust / Icon Text Sections ---------- */
+.multicolumn-card {
+  border-radius: var(--custom-radius);
+  background: #ffffff;
+  border: 1px solid var(--custom-border);
+  box-shadow: var(--custom-shadow-soft);
+}
+
+.multicolumn-card__info h3 {
+  font-weight: 800;
+}
+
+/* ---------- Cart Drawer / Cart Page ---------- */
+.cart-drawer,
+.drawer__inner {
+  border-radius: var(--custom-radius) 0 0 var(--custom-radius);
+}
+
+.cart-item__name {
+  font-weight: 700;
+}
+
+.totals__subtotal-value {
+  font-weight: 800;
+}
+
+/* ---------- Forms ---------- */
+.field__input,
+.customer .field input,
+.select__select,
+.text-area {
+  border-radius: var(--custom-radius-small);
+  border: 1px solid var(--custom-border);
+  background: #ffffff;
+}
+
+.field__input:focus,
+.customer .field input:focus,
+.select__select:focus,
+.text-area:focus {
+  border-color: var(--custom-black);
+  box-shadow: 0 0 0 1px var(--custom-black);
+}
+
+.field__label {
+  color: var(--custom-muted);
+}
+
+/* ---------- Newsletter ---------- */
+.newsletter-form__field-wrapper .field {
+  border-radius: var(--custom-radius-small);
+}
+
+.newsletter-form__button {
+  color: var(--custom-text);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  background: #0f0f0f;
+  color: #ffffff;
+}
+
+.footer p,
+.footer a,
+.footer-block__details-content,
+.footer-block__details-content a {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.footer-block__heading {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.footer a:hover {
+  color: #ffffff;
+  opacity: 1;
+}
+
+.footer__content-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Policy / Pages ---------- */
+.main-page-title {
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.rte h2,
+.rte h3 {
+  margin-top: 32px;
+  margin-bottom: 12px;
+  font-weight: 800;
+}
+
+.rte a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Mobile Optimization ---------- */
+@media screen and (max-width: 749px) {
+  .page-width {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .header__heading-logo {
+    max-width: 140px;
+  }
+
+  .product__title h1,
+  .product__title {
+    font-size: 32px;
+  }
+
+  .button,
+  .shopify-payment-button__button,
+  .product-form__submit,
+  .cart__checkout-button {
+    min-height: 54px;
+    font-size: 15px;
+  }
+
+  .banner__heading {
+    font-size: 34px;
+  }
+
+  .banner__text {
+    font-size: 16px;
+  }
+
+  .card-wrapper:hover {
+    transform: none;
+  }
+
+  .product__media,
+  .product__media-item img,
+  .media img {
+    border-radius: 10px;
+  }
+}
+
+/* ---------- Desktop Polish ---------- */
+@media screen and (min-width: 990px) {
+  .product__info-wrapper {
+    padding-left: 54px;
+  }
+
+  .collection .grid {
+    row-gap: 44px;
+  }
+
+  .section-template--main-padding {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+}
+
+/* ---------- Hide Ugly Focus Only For Mouse, Keep Accessibility ---------- */
+*:focus-visible {
+  outline: 2px solid var(--custom-black);
+  outline-offset: 3px;
+}
+
+/* ---------- Smooth Animations ---------- */
+.button,
+.card-wrapper,
+.header__menu-item,
+.product-form__input label,
+.card__media img {
+  will-change: transform;
+}
+
+/* ---------- End Custom Override ---------- */
