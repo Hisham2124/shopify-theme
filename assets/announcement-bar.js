@@ -1,6 +1,7 @@
 import { Component } from '@theme/component';
 
 /**
+ * VaporaClean™ — AnnouncementBar
  * Announcement banner custom element that allows fading between content.
  * Based on the Slideshow component.
  *
@@ -23,12 +24,32 @@ export class AnnouncementBar extends Component {
 
   connectedCallback() {
     super.connectedCallback();
-
     this.addEventListener('mouseenter', this.suspend);
     this.addEventListener('mouseleave', this.resume);
     document.addEventListener('visibilitychange', this.#handleVisibilityChange);
-
+    this.#initSlides();
     this.play();
+  }
+
+  /**
+   * Cleans up the visibilitychange listener when the element is removed.
+   */
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    document.removeEventListener('visibilitychange', this.#handleVisibilityChange);
+    this.suspend();
+  }
+
+  /**
+   * Sets the first slide as visible and hides the rest on init.
+   * Adds the fade class to all slides so CSS transitions apply.
+   */
+  #initSlides() {
+    const slides = this.refs.slides ?? [];
+    slides.forEach((slide, index) => {
+      slide.classList.add('announcement-bar__slide');
+      slide.setAttribute('aria-hidden', `${index !== 0}`);
+    });
   }
 
   next() {
@@ -45,12 +66,9 @@ export class AnnouncementBar extends Component {
    */
   play(interval = this.autoplayInterval) {
     if (!this.autoplay) return;
-
     this.paused = false;
-
     this.#interval = setInterval(() => {
       if (this.matches(':hover') || document.hidden) return;
-
       this.next();
     }, interval);
   }
@@ -84,7 +102,6 @@ export class AnnouncementBar extends Component {
    */
   resume() {
     if (!this.autoplay || this.paused) return;
-
     this.pause();
     this.play();
   }
@@ -96,9 +113,7 @@ export class AnnouncementBar extends Component {
   get autoplayInterval() {
     const interval = this.getAttribute('autoplay');
     const value = parseInt(`${interval}`, 10);
-
     if (Number.isNaN(value)) return undefined;
-
     return value * 1000;
   }
 
@@ -107,16 +122,37 @@ export class AnnouncementBar extends Component {
   }
 
   set current(current) {
+    const slides = this.refs.slides ?? [];
+    if (!slides.length) return;
+
+    const prevIndex = this.#current % slides.length < 0
+      ? (this.#current % slides.length) + slides.length
+      : this.#current % slides.length;
+
     this.#current = current;
 
-    let relativeIndex = current % (this.refs.slides ?? []).length;
+    let relativeIndex = current % slides.length;
     if (relativeIndex < 0) {
-      relativeIndex += (this.refs.slides ?? []).length;
+      relativeIndex += slides.length;
     }
 
-    this.refs.slides?.forEach((slide, index) => {
-      slide.setAttribute('aria-hidden', `${index !== relativeIndex}`);
+    // Fade out previous, fade in next
+    slides.forEach((slide, index) => {
+      const isActive = index === relativeIndex;
+      slide.setAttribute('aria-hidden', `${!isActive}`);
+      slide.classList.toggle('announcement-bar__slide--active', isActive);
+      slide.classList.toggle('announcement-bar__slide--hidden', !isActive);
     });
+
+    // Dispatch VaporaClean slide change event
+    this.dispatchEvent(new CustomEvent('vaporaclean:announcement:change', {
+      bubbles: true,
+      detail: {
+        current:  relativeIndex,
+        previous: prevIndex,
+        total:    slides.length,
+      },
+    }));
   }
 
   /**
